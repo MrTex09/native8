@@ -1,33 +1,42 @@
+//importaciones 
 import React, { useState, useEffect } from 'react';
-import { View , Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Animated, { useSharedValue, withTiming, useAnimatedStyle } from 'react-native-reanimated';
 
 const Home = () => {
+  // state para manejar el color de fondo de la vista
   const [backgroundColor, setBackgroundColor] = useState('#1E90FF');
-  const titlePosition = useSharedValue(-100);
-  const titleOpacity = useSharedValue(1); 
+  
+  // valores compartidos para animación (posición y opacidad del título)
+  const titlePosition = useSharedValue(-100); // inicia la posicion del titulo
+  const titleOpacity = useSharedValue(1); // opacidad a 1
 
-
+  // estilo animado para el titulo 
   const animatedTitleStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: titlePosition.value }],
-      opacity: titleOpacity.value,
+      transform: [{ translateY: titlePosition.value }], // animacion de traslado en y
+      opacity: titleOpacity.value, // animacion de opacidad
     };
   });
 
+  // estilo animado para el fondo
   const animatedBackgroundStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor, //cambio de color del fondo
     };
   });
 
-   useEffect(() => {
-    titlePosition.value = withTiming(0, { duration: 1000 }); 
+  // useEffect para ejecutar animación cuando el componente "inicia"
+  useEffect(() => {
+    titlePosition.value = withTiming(0, { duration: 1000 }); //animacionde entrada del titulo
   }, []);
+
+  // Maneja el evento de presionar el botón
   const handleStartPress = () => {
-    titleOpacity.value = withTiming(0, { duration: 500 });
-    setBackgroundColor('#FF6347'); 
+    titleOpacity.value = withTiming(0, { duration: 500 }); // animacion de desvanecimiento del titulo
+    setBackgroundColor('#FF6347'); // Cambio del color de fondo
   };
+
   return (
     <Animated.View style={[styles.container, animatedBackgroundStyle]}>
       <Animated.Text style={[styles.title, animatedTitleStyle]}>
